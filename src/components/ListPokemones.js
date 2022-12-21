@@ -38,7 +38,7 @@ export const ListPokemones = () => {
         <thead>
           <tr>
             <th>N°</th>
-            <th>POKEMON</th>
+            <th>POKEMONnnnnnnnn</th>
           </tr>
         </thead>
         <tbody>
