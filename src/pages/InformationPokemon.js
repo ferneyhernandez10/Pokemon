@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Chip, Paper } from "@mui/material";
+import { Chip, Paper, Tab, Tabs } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -31,9 +31,9 @@ export const InformationPokemon = () => {
 
           <Paper sx={{display:'flex', justifyContent:'center'}}>
             <Stack direction='row' spacing={1}>
-              {
-                elementos.map((item, index) => (
-                  <Chip key={index} label={item.type}/>
+              {dataPokemon.types &&
+                dataPokemon.types.map((item, index) => (
+                  <Chip key={index} label={item.type.name}/>
                 ))
               }
             </Stack>
@@ -50,7 +50,12 @@ export const InformationPokemon = () => {
         /> */}
       </div>
 
-      <table className="table table-bordered table-hover table-sm text-center">
+      {/* <box>
+        <Tabs>
+          <Tab label= {dataPokemon.abilities} />
+        </Tabs>
+      </box> */}
+      {/* <table className="table table-bordered table-hover table-sm text-center">
         <thead>
           <tr>
             <th>- Abilities</th>
@@ -103,7 +108,7 @@ export const InformationPokemon = () => {
               </tr>
             ))}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 };
