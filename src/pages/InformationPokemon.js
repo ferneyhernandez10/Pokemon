@@ -1,3 +1,6 @@
+import styled from "@emotion/styled";
+import { Chip, Paper } from "@mui/material";
+import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -14,6 +17,8 @@ export const InformationPokemon = () => {
     setDataPokemon(data);
   };
 
+  const elementos = [{type:'Fire', color:'red'}, {type:'Water', color:'blue'}, {type:'Electric', color:'yellow'}]
+
   useEffect(() => {
     getData();
   }, []);
@@ -21,20 +26,29 @@ export const InformationPokemon = () => {
   return (
     <div>
       <h1 className="text-center">
-        <b>{id} Pokemon Data</b>
+        <b>{id}</b>
       </h1>
-      <hr />
+
+          <Paper sx={{display:'flex', justifyContent:'center'}}>
+            <Stack direction='row' spacing={1}>
+              {
+                elementos.map((item, index) => (
+                  <Chip key={index} label={item.type}/>
+                ))
+              }
+            </Stack>
+          </Paper>
+
       <div className="contenedor">
         <img
           src={dataPokemon.sprites && dataPokemon.sprites.front_shiny}
           className="img-thumbnail"
         />
-        <img
+{/*         <img
           src={dataPokemon.sprites && dataPokemon.sprites.back_default}
           className="img-thumbnail"
-        />
+        /> */}
       </div>
-      <hr />
 
       <table className="table table-bordered table-hover table-sm text-center">
         <thead>
