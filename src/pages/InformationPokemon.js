@@ -1,13 +1,14 @@
-import styled from "@emotion/styled";
-import { Chip, Paper, Tab, Tabs } from "@mui/material";
+import { Box, Chip, Paper, Tab } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Stack } from "@mui/system";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export const InformationPokemon = () => {
   const { id } = useParams();
 
   const [dataPokemon, setDataPokemon] = useState({});
+  const [value, setValue] = useState("1");
 
   const URL = `https://pokeapi.co/api/v2/pokemon/${id}`;
 
@@ -17,7 +18,41 @@ export const InformationPokemon = () => {
     setDataPokemon(data);
   };
 
-  const elementos = [{type:'Fire', color:'red'}, {type:'Water', color:'blue'}, {type:'Electric', color:'yellow'}]
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const abilities =
+    dataPokemon.abilities &&
+    dataPokemon.abilities.map((ability, index) => (
+      <div key={index}>{`${index + 1}. ${ability.ability.name}`}</div>
+    ));
+
+  const moves =
+    dataPokemon.moves &&
+    dataPokemon.moves.map((move, index) => (
+      <div key={index}>{`${index + 1}. ${move.move.name}`}</div>
+    ));
+
+  const stats =
+    dataPokemon.stats &&
+    dataPokemon.stats.map((stat, index) => (
+      <div key={index}>
+        {`${index + 1}. ${stat.stat.name} - ${stat.base_stat}`}
+      </div>
+    ));
+
+  const types =
+    dataPokemon.types &&
+    dataPokemon.types.map((type, index) => (
+      <div key={index}>{`${index + 1}. ${type.type.name}`}</div>
+    ));
+
+  const elementos = [
+    { type: "Fire", color: "red" },
+    { type: "Water", color: "blue" },
+    { type: "Electric", color: "yellow" },
+  ];
 
   useEffect(() => {
     getData();
@@ -26,89 +61,48 @@ export const InformationPokemon = () => {
   return (
     <div>
       <h1 className="text-center">
-        <b>{id}</b>
+        <b>{id.charAt(0).toUpperCase() + id.slice(1)}</b>
       </h1>
 
-          <Paper sx={{display:'flex', justifyContent:'center'}}>
-            <Stack direction='row' spacing={1}>
-              {dataPokemon.types &&
-                dataPokemon.types.map((item, index) => (
-                  <Chip key={index} label={item.type.name}/>
-                ))
-              }
-            </Stack>
-          </Paper>
+      <Paper sx={{ display: "flex", justifyContent: "center" }}>
+        <Stack direction="row" spacing={1}>
+          {dataPokemon.types &&
+            dataPokemon.types.map((item, index) => (
+              <Chip
+                key={index}
+                label={
+                  item.type.name.charAt(0).toUpperCase() +
+                  item.type.name.slice(1)
+                }
+              />
+            ))}
+        </Stack>
+      </Paper>
 
       <div className="contenedor">
         <img
           src={dataPokemon.sprites && dataPokemon.sprites.front_shiny}
           className="img-thumbnail"
+          alt="pokemonImage"
         />
-{/*         <img
-          src={dataPokemon.sprites && dataPokemon.sprites.back_default}
-          className="img-thumbnail"
-        /> */}
       </div>
 
-      {/* <box>
-        <Tabs>
-          <Tab label= {dataPokemon.abilities} />
-        </Tabs>
-      </box> */}
-      {/* <table className="table table-bordered table-hover table-sm text-center">
-        <thead>
-          <tr>
-            <th>- Abilities</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataPokemon.abilities &&
-            dataPokemon.abilities.map((item, index) => (
-              <tr key={index}>
-                <td>{`${index + 1}. ${item.ability.name}`}</td>
-              </tr>
-            ))}
-        </tbody>
-        <thead>
-          <tr>
-            <th>- Moves</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataPokemon.moves &&
-            dataPokemon.moves.map((move, index) => (
-              <tr key={index}>
-                <td>{`${index + 1}. ${move.move.name}`}</td>
-              </tr>
-            ))}
-        </tbody>
-        <thead>
-          <tr>
-            <th>- stats</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataPokemon.stats &&
-            dataPokemon.stats.map((stat, index) => (
-              <tr key={index}>
-                <td>{`${index + 1}. ${stat.stat.name} - ${stat.base_stat}`}</td>
-              </tr>
-            ))}
-        </tbody>
-        <thead>
-          <tr>
-            <th>- Types</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataPokemon.types &&
-            dataPokemon.types.map((type, index) => (
-              <tr key={index}>
-                <td>{`${index + 1}. ${type.type.name}`}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table> */}
+      <Box>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleChange}>
+              <Tab label="Abilities" value="1" />
+              <Tab label="Moves" value="2" />
+              <Tab label="stats" value="3" />
+              <Tab label="Types" value="4" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">{abilities}</TabPanel>
+          <TabPanel value="2">{moves}</TabPanel>
+          <TabPanel value="3">{stats}</TabPanel>
+          <TabPanel value="4">{types}</TabPanel>
+        </TabContext>
+      </Box>
     </div>
   );
 };
