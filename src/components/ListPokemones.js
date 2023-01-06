@@ -1,6 +1,10 @@
+import { Box, Container } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { SearchPokemon } from "./SearchPokemon";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { PokemonAppExplanation } from "./PokemonAppExplanation";
+import { GetImage } from "./GetImage";
+import { PokemonCard } from "./PokemonCard";
 
 export const ListPokemones = () => {
   const [pokemones, setPokemones] = useState([]);
@@ -32,26 +36,23 @@ export const ListPokemones = () => {
   }, []);
 
   return (
-    <div>
-      <SearchPokemon searchTerm={onSearcher} search={search} />
-      <table className="table table-striped table-hover mt-5 shadow-lg">
-        <thead>
-          <tr>
-            <th>N°</th>
-            <th>POKEMON</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pokemonResult.map((pokemon, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>
-                <Link to={`/information/${pokemon.name}`}>{pokemon.name}</Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Container>
+      <Grid2 container spacing={2}>
+        <GetImage />
+        <PokemonAppExplanation />
+        <Grid2 xs={12} md={12} lg={12}>
+          <SearchPokemon searchTerm={onSearcher} search={search} />
+        </Grid2>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid2 container spacing={2} columns={{ xs: 1, sm: 8, md: 12 }}>
+            {pokemonResult.map((pokemon, index) => (
+              <Grid2 key={index} xs={4} md={4} lg={4}>
+                <PokemonCard name={pokemon.name} />
+              </Grid2>
+            ))}
+          </Grid2>
+        </Box>
+      </Grid2>
+    </Container>
   );
 };

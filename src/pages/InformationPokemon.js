@@ -1,8 +1,15 @@
-import { Box, Chip, Paper, Tab } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Stack } from "@mui/system";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Container,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import { GetDataPokemonTypes } from "../components/GetDataPokemonTypes";
+import { GetDataPokemon } from "../components/GetDataPokemon";
 
 export const InformationPokemon = () => {
   const { id } = useParams();
@@ -59,50 +66,42 @@ export const InformationPokemon = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-center">
-        <b>{id.charAt(0).toUpperCase() + id.slice(1)}</b>
-      </h1>
+    <Container style={{ background: "blue", padding: "0", maxWidth: "100%" }}>
+      <Grid2 xs={12} display="flex" justifyContent="center" alignItems="center">
+        <Card sx={{ maxWidth: 500 }} style={{ margin: "50px" }}>
+          <CardContent>
+            <Typography variant="h3">
+              <b>{id.charAt(0).toUpperCase() + id.slice(1)}</b>
+            </Typography>
 
-      <Paper sx={{ display: "flex", justifyContent: "center" }}>
-        <Stack direction="row" spacing={1}>
-          {dataPokemon.types &&
-            dataPokemon.types.map((item, index) => (
-              <Chip
-                key={index}
-                label={
-                  item.type.name.charAt(0).toUpperCase() +
-                  item.type.name.slice(1)
-                }
+            <GetDataPokemonTypes dataPokemon={dataPokemon} />
+
+            <CardMedia
+              component="img"
+              width="300"
+              height="300"
+              image={dataPokemon.sprites && dataPokemon.sprites.front_default}
+              alt="pokemonImage"
+            />
+
+            {/* <div className="contenedor">
+              <img
+                src={dataPokemon.sprites && dataPokemon.sprites.front_shiny}
+                className="img-thumbnail"
+                alt="pokemonImage"
               />
-            ))}
-        </Stack>
-      </Paper>
-
-      <div className="contenedor">
-        <img
-          src={dataPokemon.sprites && dataPokemon.sprites.front_shiny}
-          className="img-thumbnail"
-          alt="pokemonImage"
-        />
-      </div>
-
-      <Box>
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange}>
-              <Tab label="Abilities" value="1" />
-              <Tab label="Moves" value="2" />
-              <Tab label="stats" value="3" />
-              <Tab label="Types" value="4" />
-            </TabList>
-          </Box>
-          <TabPanel value="1">{abilities}</TabPanel>
-          <TabPanel value="2">{moves}</TabPanel>
-          <TabPanel value="3">{stats}</TabPanel>
-          <TabPanel value="4">{types}</TabPanel>
-        </TabContext>
-      </Box>
-    </div>
+            </div> */}
+            <GetDataPokemon
+              value={value}
+              handleChange={handleChange}
+              abilities={abilities}
+              moves={moves}
+              stats={stats}
+              types={types}
+            />
+          </CardContent>
+        </Card>
+      </Grid2>
+    </Container>
   );
 };
