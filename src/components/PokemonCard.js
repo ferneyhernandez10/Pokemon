@@ -1,13 +1,18 @@
 import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const PokemonCard = ({ name }) => {
+  const navigate = useNavigate();
+
+  const handleOnClick = () => {
+    navigate(`/information/${name}`);
+  };
   return (
     <Card>
-      <CardActionArea>
+      <CardActionArea onClick={handleOnClick}>
         <CardContent>
-          <Typography align="center" variant="h6">
-            <Link to={`/information/${name}`}>{name}</Link>
+          <Typography variant="h4" align="center" textTransform="capitalize">
+            {name}
           </Typography>
         </CardContent>
       </CardActionArea>
