@@ -1,5 +1,6 @@
 import {
   Card,
+  CardActionArea,
   CardContent,
   CardMedia,
   Container,
@@ -10,12 +11,14 @@ import { useParams } from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { GetDataPokemonTypes } from "../components/GetDataPokemonTypes";
 import { GetDataPokemon } from "../components/GetDataPokemon";
+import { ImageModal } from "../components/ImageModal";
 
 export const InformationPokemon = () => {
   const { id } = useParams();
 
   const [dataPokemon, setDataPokemon] = useState({});
   const [value, setValue] = useState("1");
+  const [open, setOpen] = useState(false);
 
   const URL = `https://pokeapi.co/api/v2/pokemon/${id}`;
 
@@ -49,11 +52,12 @@ export const InformationPokemon = () => {
       </div>
     ));
 
-  const types =
-    dataPokemon.types &&
-    dataPokemon.types.map((type, index) => (
-      <div key={index}>{`${index + 1}. ${type.type.name}`}</div>
-    ));
+  const types = dataPokemon?.types?.map((type, index) => (
+    <div key={index}>{`${index + 1}. ${type.type.name}`}</div>
+  ));
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const elementos = [
     { type: "Fire", color: "red" },
@@ -76,12 +80,20 @@ export const InformationPokemon = () => {
 
             <GetDataPokemonTypes dataPokemon={dataPokemon} />
 
-            <CardMedia
-              component="img"
-              width="300"
-              height="300"
-              image={dataPokemon.sprites && dataPokemon.sprites.front_default}
-              alt="pokemonImage"
+            <CardActionArea onClick={handleOpen}>
+              <CardMedia
+                component="img"
+                width="300"
+                height="300"
+                image={dataPokemon.sprites && dataPokemon.sprites.front_default}
+                alt="pokemonImage"
+              />
+            </CardActionArea>
+
+            <ImageModal
+              dataPokemon={dataPokemon}
+              open={open}
+              handleClose={handleClose}
             />
 
             {/* <div className="contenedor">
