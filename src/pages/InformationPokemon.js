@@ -32,30 +32,6 @@ export const InformationPokemon = () => {
     setValue(newValue);
   };
 
-  const abilities =
-    dataPokemon.abilities &&
-    dataPokemon.abilities.map((ability, index) => (
-      <div key={index}>{`${index + 1}. ${ability.ability.name}`}</div>
-    ));
-
-  const moves =
-    dataPokemon.moves &&
-    dataPokemon.moves.map((move, index) => (
-      <div key={index}>{`${index + 1}. ${move.move.name}`}</div>
-    ));
-
-  const stats =
-    dataPokemon.stats &&
-    dataPokemon.stats.map((stat, index) => (
-      <div key={index}>
-        {`${index + 1}. ${stat.stat.name} - ${stat.base_stat}`}
-      </div>
-    ));
-
-  const types = dataPokemon?.types?.map((type, index) => (
-    <div key={index}>{`${index + 1}. ${type.type.name}`}</div>
-  ));
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -106,10 +82,7 @@ export const InformationPokemon = () => {
             <GetDataPokemon
               value={value}
               handleChange={handleChange}
-              abilities={abilities}
-              moves={moves}
-              stats={stats}
-              types={types}
+              dataPokemon={dataPokemon}
             />
           </CardContent>
         </Card>
